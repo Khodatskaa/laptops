@@ -1,0 +1,17 @@
+.selectFilter{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: 20px;
+
+    select {
+        width: 60%;
+        margin-bottom: 10px;
+        border: 1px solid rgb(48, 148, 243);
+        border-radius: 5px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
