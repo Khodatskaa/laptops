@@ -1,27 +1,31 @@
-export const cart = {
-    items: [],
-    addItem(product) {
-        this.items.push(product);
-        /* this.items.forEach(item => {
-            console.log(item);
-            if (product.name === item.name) {
-                this.items.push(product);
-            }
-        }); */
-    },
-    calculateTotal() {
-        return this.items.reduce((acc, item) => {total + item.price}, 0);
+export const cart = [];
+
+export function addToCart(laptop) {
+    const existingItem = cart.find(item => item.name === laptop.name);
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ ...laptop, quantity: 1 });
     }
 }
 
-export function addToCart(product) {
-    cart.addItem.bind(cart)(product);
-    renderCart();
+export function removeFromCart(laptopName) {
+    const itemIndex = cart.findIndex(item => item.name === laptopName);
+    if (itemIndex > -1) {
+        cart.splice(itemIndex, 1);
+    }
 }
 
-function renderCart() {
-    const cartItems = document.getElementById('cartItems')
-    cartItems.innerHTML = cart.items.map(({name, price, image})=> {
-        return `<li><img src="${image}"/> <span>${name} - ${price} $<span/> </li>`
-    }).join("");
+export function updateItemQuantity(laptopName, quantity) {
+    const item = cart.find(item => item.name === laptopName);
+    if (item) {
+        item.quantity = quantity;
+        if (item.quantity <= 0) {
+            removeFromCart(laptopName);
+        }
+    }
+}
+
+export function clearCart() {
+    cart.length = 0;
 }

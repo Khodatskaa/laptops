@@ -1,10 +1,11 @@
 import { addHeader } from "./src/js/addHeader.js";
-import { addToCart, cart } from "./src/js/cart.js";
+import { addToCart } from "./src/js/cart.js";
 import { laptops } from "./src/js/db.js";
 import { filterGoods } from "./src/js/filter.js";
 import { openCart, closeCart } from "./src/js/open_close_cart.js";
 import { renderGoods } from "./src/js/renderGoods.js";
 import { renderSelect } from "./src/js/renderSelect.js";
+import { updateCartUI, clearCartUI } from "./src/js/cartFunctions.js";
 
 addHeader();
 openCart();
@@ -33,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSelect(Array.from(uniqueDisplay), document.getElementById("displayFilter"));
     renderSelect(Array.from(uniqueGraphics), document.getElementById("graphicsFilter"));
 
-    document.querySelectorAll("select").forEach((link) => {
-        link.addEventListener("change", () => {
+    document.querySelectorAll("select").forEach((select) => {
+        select.addEventListener("change", () => {
             filterGoods(laptops);
         });
     });
@@ -47,10 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector('.goods_container').addEventListener('click', (e) => {
         if (e.target.classList.contains('buyBtn')){
             const laptopName = e.target.closest('.card').querySelector('h3').textContent;
-            console.log(laptopName);
             const laptop = laptops.find(product => product.name === laptopName);
-            console.log(laptop);
-            addToCart.call(cart, laptop);
+            addToCart(laptop);
+            updateCartUI();
         }
-    })
+    });
+
+    document.getElementById("clearCart").addEventListener("click", () => {
+        clearCartUI();
+    });
 });
